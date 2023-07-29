@@ -19,11 +19,12 @@ do shell script "echo 'Night wallpaper: " & nightWallpaper & "' >> " & logFile
 -- END USER CONFIGURATION
 
 -- Get the current location
-set locationData to do shell script "curl -s https://ipinfo.io/geo | jq -r '.loc'"
-set {latitude, longitude} to text items of locationData
--- log "Current Latitude: " & latitude  & "Current Longitude: " & longitude
+set latitude to "43.4643"
+set longitude to "-80.51639"
+-- set locationData to do shell script "curl -s https://ipinfo.io/geo | jq -r '.loc'"
+-- set {latitude, longitude} to text items of locationData
 do shell script "echo 'Current Latitude: " & latitude & "' >> " & logFile
-
+do shell script "echo 'Current Longitude: " & longitude & "' >> " & logFile
 -- Helper function to get sunrise and sunset times
 on getSunriseSunset()
 	set apiURL to "https://api.sunrisesunset.io/json?lat=" & latitude & "&lng=" & longitude
@@ -32,8 +33,8 @@ on getSunriseSunset()
 	set jsonResponse to do shell script "curl '" & apiURL & "'"
 	-- log jsonResponse -- Print the JSON response for debugging
 	do shell script "echo 'JSON Response: " & jsonResponse & "' >> " & logFile
-	set sunriseTime to do shell script "echo '" & jsonResponse & "' | jq -r '.results.sunrise'"
-	set sunsetTime to do shell script "echo '" & jsonResponse & "' | jq -r '.results.sunset'"
+	set sunriseTime to do shell script "echo '" & jsonResponse & "' | /opt/homebrew/bin/jq -r '.results.sunrise'"
+	set sunsetTime to do shell script "echo '" & jsonResponse & "' | /opt/homebrew/bin/jq -r '.results.sunset'"
 	return {sunriseTime, sunsetTime}
 end getSunriseSunset
 
@@ -44,16 +45,13 @@ do shell script "echo 'Current time: " & currentTime & "' >> " & logFile
 
 -- Get sunrise and sunset times
 set {sunriseTime, sunsetTime} to getSunriseSunset()
--- -- log "Sunrise time: " & sunriseTime -- Print the sunrise time for debugging
--- log "Sunset time: " & sunsetTime -- Print the sunset time for debugging
+
 do shell script "echo 'Sunrise time: " & sunriseTime & "' >> " & logFile
 do shell script "echo 'Sunset time: " & sunsetTime & "' >> " & logFile
 
 -- Convert sunrise and sunset times to date objects
 set sunriseDate to date sunriseTime
 set sunsetDate to date sunsetTime
--- log "Sunrise date: " & sunriseDate -- Print the sunrise date for debugging
--- log "Sunset date: " & sunsetDate -- Print the sunset date for debugging
 do shell script "echo 'Sunrise date: " & sunriseDate & "' >> " & logFile
 do shell script "echo 'Sunset date: " & sunsetDate & "' >> " & logFile
 

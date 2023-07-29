@@ -1,6 +1,6 @@
 # Dynamic Day Night Wallpaper
 
-This is a simple AppleScript that changes your desktop wallpaper based on the time of day. It uses your current location to determine the sunrise and sunset times and switches between a day and night wallpaper accordingly.
+This project is a simple AppleScript that changes your desktop wallpaper based on the time of day. It uses your current location to determine the sunrise and sunset times, and switches between a day and night wallpaper accordingly.
 
 ## How it Works
 
@@ -23,11 +23,26 @@ Please ensure to respect the copyright and licensing terms of any images you use
 
 To use this script, simply run it on your machine. You can schedule it to run at regular intervals (for example, every hour) to keep your wallpaper in sync with the day-night cycle.
 
-To set up a cron job to run this script every 4 hours, follow these steps:
+### Using the Bash Script
 
-1. Open your crontab file with the command `crontab -e`.
-2. Add a new line with the following format: `0 */4 * * * osascript /path/to/your/script`. Replace `/path/to/your/script` with the actual path to the AppleScript file.
-3. Save and close the file by typing `:wq` and press Enter.
+This project includes a bash script that sets up a launch agent to run the AppleScript every 4 hours. Here's how to use it:
+
+1. Open Terminal.
+2. Navigate to the directory containing the bash script.
+3. Run the bash script with the command `./setup.sh`. Replace `setup.sh` with the actual name of the bash script.
+4. The script will create a .plist file and move it to `~/Library/LaunchAgents`. It will then load the launch agent using `launchctl`.
+5. The script will output a message indicating whether the job was loaded successfully.
+
+To unload the job, run the bash script with the argument `rm`, like so: `./setup.sh rm`.
+
+### Legacy Option: Using Cron
+
+As a legacy option, you can also set up a cron job to run this script every 4 hours. Here's how:
+
+1. Open Terminal.
+2. Type `crontab -e` to open your crontab file.
+3. Add a new line with the following format: `0 */4 * * * osascript /path/to/your/script`. Replace `/path/to/your/script` with the actual path to the AppleScript file.
+4. Save and close the file by typing `:wq` and pressing Enter.
 
 ## Debugging
 
