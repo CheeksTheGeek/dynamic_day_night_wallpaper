@@ -7,7 +7,7 @@ set currentDirectory to do shell script "dirname " & quoted form of currentFile
 set logFile to currentDirectory & "/DayAndNightChange.logs"
 
 do shell script "echo \n\n >> " & logFile
-do shell script "echo '[Script run at ' $(date) ']' >> " & logFile
+do shell script "echo '[SCRIPT START at ' $(date) ']' >> " & logFile
 do shell script "echo 'Current directory: " & currentDirectory & "' >> " & logFile
 
 set dayWallpaper to currentDirectory & "/day.jpeg"
